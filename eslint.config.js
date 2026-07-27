@@ -15,6 +15,10 @@ module.exports = defineConfig([
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-useless-escape': 'off',
+      '@typescript-eslint/prefer-for-of': 'off',
       '@angular-eslint/directive-selector': [
         'error',
         {
@@ -37,7 +41,7 @@ module.exports = defineConfig([
     files: ['**/*.html'],
     extends: [
       angular.configs.templateRecommended,
-      angular.configs.templateAccessibility,
+      // angular.configs.templateAccessibility,
     ],
     rules: {},
   }

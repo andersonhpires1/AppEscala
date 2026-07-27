@@ -1,9 +1,11 @@
 /* Global Stylesheet for Escala Easy VIBRA */
 @import "./themes.css";
 
-body {
+html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 app-root:nth-of-type(1) > div#main_app_layout:not(.light-theme):nth-of-type(1) > main:nth-of-type(1) > section#primary_workspace_tabs:nth-of-type(1) > div#shifts_tab_content:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > h3:nth-of-type(1) {

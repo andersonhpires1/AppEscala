@@ -1361,6 +1361,12 @@ export class App {
   public isDbModalOpen = signal<boolean>(false);
   public isSolicitarFolgaModalOpen = signal<boolean>(false);
   public folgaModalSelectedDay = signal<number | null>(null);
+
+  public getSelectedFolgaDayObj() {
+    const day = this.folgaModalSelectedDay();
+    if (day === null) return null;
+    return this.getNextMonthCalendarDays().find(d => !d.empty && d.day === day) || null;
+  }
   public showWelcomeModal = signal<boolean>(!safeGetLocalStorage('welcome_modal_dismissed'));
 
   // Print prevention states

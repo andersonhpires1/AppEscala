@@ -1,5 +1,5 @@
 <!-- MAIN WRAPPER: PREMIUM WORK SCALE MANAGEMENT DARK MODE -->
-<div class="h-screen bg-[#020813] font-sans flex flex-col antialiased selection:bg-emerald-600 selection:text-white overflow-hidden" id="main_app_layout" [class.light-theme]="isLightTheme()" [class.text-slate-900]="isLightTheme()" [class.text-slate-100]="!isLightTheme()">
+<div class="h-[100dvh] fixed inset-0 w-full bg-[#020813] font-sans flex flex-col antialiased selection:bg-emerald-600 selection:text-white overflow-hidden" id="main_app_layout" [class.light-theme]="isLightTheme()" [class.text-slate-900]="isLightTheme()" [class.text-slate-100]="!isLightTheme()">
 
 
 
@@ -4421,9 +4421,7 @@
               (touchend)="changeMobileTab('portal', $event)"
               class="flex flex-col items-center justify-center py-2.5 px-1 flex-1 gap-1 rounded-lg transition-all border-none outline-none bg-transparent cursor-pointer active:scale-95 active:bg-slate-500/10 pointer-events-auto select-none"
               style="touch-action: manipulation; min-height: 48px;"
-              [class]="activeSubTab() === 'portal' ? 
-                       (isLightTheme() ? 'text-emerald-650 font-bold bg-emerald-50/60' : 'text-emerald-400 font-bold bg-emerald-500/10') : 
-                       (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
+              [class]="activeSubTab() === 'portal' ? 'bg-[#10B981] text-white shadow-md' : (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
         <span class="material-icons text-lg">home</span>
         <span class="text-[9px] font-black uppercase tracking-wider">Início</span>
       </button>
@@ -4433,9 +4431,7 @@
               (touchend)="changeMobileTab('escala', $event)"
               class="flex flex-col items-center justify-center py-2.5 px-1 flex-1 gap-1 rounded-lg transition-all border-none outline-none bg-transparent cursor-pointer active:scale-95 active:bg-slate-500/10 pointer-events-auto select-none"
               style="touch-action: manipulation; min-height: 48px;"
-              [class]="activeSubTab() === 'escala' ? 
-                       (isLightTheme() ? 'text-emerald-650 font-bold bg-emerald-50/60' : 'text-emerald-400 font-bold bg-emerald-500/10') : 
-                       (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
+              [class]="activeSubTab() === 'escala' ? 'bg-[#10B981] text-white shadow-md' : (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
         <span class="material-icons text-lg font-bold">calendar_month</span>
         <span class="text-[9px] font-black uppercase tracking-wider">Escala</span>
       </button>
@@ -4445,9 +4441,7 @@
               (touchend)="changeMobileTab('perfil', $event)"
               class="flex flex-col items-center justify-center py-2.5 px-1 flex-1 gap-1 rounded-lg transition-all border-none outline-none bg-transparent cursor-pointer active:scale-95 active:bg-slate-500/10 pointer-events-auto select-none"
               style="touch-action: manipulation; min-height: 48px;"
-              [class]="activeSubTab() === 'perfil' ? 
-                       (isLightTheme() ? 'text-emerald-650 font-bold bg-emerald-50/60' : 'text-emerald-400 font-bold bg-emerald-500/10') : 
-                       (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
+              [class]="activeSubTab() === 'perfil' ? 'bg-[#10B981] text-white shadow-md' : (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
         <span class="material-icons text-lg">account_circle</span>
         <span class="text-[9px] font-black uppercase tracking-wider">Perfil</span>
       </button>
@@ -4457,9 +4451,7 @@
               (touchend)="changeMobileTab('equipe', $event)"
               class="flex flex-col items-center justify-center py-2.5 px-1 flex-1 gap-1 rounded-lg transition-all border-none outline-none bg-transparent cursor-pointer active:scale-95 active:bg-slate-500/10 pointer-events-auto select-none"
               style="touch-action: manipulation; min-height: 48px;"
-              [class]="(activeSubTab() === 'equipe' || activeSubTab() === 'team') ? 
-                       (isLightTheme() ? 'text-emerald-650 font-bold bg-emerald-50/60' : 'text-emerald-400 font-bold bg-emerald-500/10') : 
-                       (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
+              [class]="(activeSubTab() === 'equipe' || activeSubTab() === 'team') ? 'bg-[#10B981] text-white shadow-md' : (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
         <span class="material-icons text-lg">groups</span>
         <span class="text-[9px] font-black uppercase tracking-wider">Equipe</span>
       </button>
@@ -4469,9 +4461,7 @@
               (touchend)="changeMobileTab('indicadores', $event)"
               class="flex flex-col items-center justify-center py-2.5 px-1 flex-1 gap-1 rounded-lg transition-all border-none outline-none bg-transparent cursor-pointer active:scale-95 active:bg-slate-500/10 pointer-events-auto select-none"
               style="touch-action: manipulation; min-height: 48px;"
-              [class]="activeSubTab() === 'indicadores' ? 
-                       (isLightTheme() ? 'text-emerald-650 font-bold bg-emerald-50/60' : 'text-emerald-400 font-bold bg-emerald-500/10') : 
-                       (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
+              [class]="activeSubTab() === 'indicadores' ? 'bg-[#10B981] text-white shadow-md' : (isLightTheme() ? 'text-slate-500 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200')">
         <span class="material-icons text-lg">analytics</span>
         <span class="text-[9px] font-black uppercase tracking-wider">Indicadores</span>
       </button>
@@ -5136,7 +5126,7 @@ CREATE TABLE IF NOT EXISTS public.audit_history (
             
             <!-- Selected Day Info -->
             @if (folgaModalSelectedDay() !== null) {
-              @let selObj = getNextMonthCalendarDays().find(d => !d.empty && d.day === folgaModalSelectedDay());
+              @let selObj = getSelectedFolgaDayObj();
               <div class="p-3 bg-[#071426] border border-[#10213b] rounded-lg text-left mt-2 animate-fade-in">
                 <div class="flex justify-between items-start mb-2">
                   <span class="text-[10px] font-black uppercase text-slate-300">

@@ -1,7 +1,0 @@
-0000000000000000000000000000000000000000 51771c255a30c04cd3b48447255d9c9b6d29f5db root <root@localhost.(none)> 1783980875 +0000	branch: Created from refs/remotes/origin/main
-51771c255a30c04cd3b48447255d9c9b6d29f5db 7089dfc8305238c5a22e0452520cbb15a2632e1e Anderson H Pires <anderson.hpires@gmail.com> 1783981987 +0000	commit: Fix build output config for Cloudflare Pages deployment
-7089dfc8305238c5a22e0452520cbb15a2632e1e 51771c255a30c04cd3b48447255d9c9b6d29f5db Anderson H Pires <anderson.hpires@gmail.com> 1783982460 +0000	reset: moving to origin/main
-51771c255a30c04cd3b48447255d9c9b6d29f5db bdd99b44d4e33ccab478871658d5d62641cd08b0 Anderson H Pires <anderson.hpires@gmail.com> 1783984251 +0000	commit: chore: configure build output paths and align with Cloudflare Pages (dist/browser)
-bdd99b44d4e33ccab478871658d5d62641cd08b0 51771c255a30c04cd3b48447255d9c9b6d29f5db Anderson H Pires <anderson.hpires@gmail.com> 1783984459 +0000	reset: moving to origin/main
-51771c255a30c04cd3b48447255d9c9b6d29f5db fbfb893111c19d9872c4359972538af06e3fb552 Anderson H Pires <anderson.hpires@gmail.com> 1783984890 +0000	commit: feat: implement Escala Easy VIBRA styling, PWA support, and build configurations
-fbfb893111c19d9872c4359972538af06e3fb552 51771c255a30c04cd3b48447255d9c9b6d29f5db Anderson H Pires <anderson.hpires@gmail.com> 1783985188 +0000	reset: moving to origin/main
