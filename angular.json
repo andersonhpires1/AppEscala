@@ -67,12 +67,16 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": ["*"]
+          },
           "configurations": {
             "production": {
               "buildTarget": "app:build:production"
             },
             "development": {
-              "buildTarget": "app:build:development"
+              "buildTarget": "app:build:development",
+              "allowedHosts": ["*"]
             }
           },
           "defaultConfiguration": "development"
