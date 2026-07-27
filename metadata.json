@@ -1,0 +1,8 @@
+{
+  "name": "ESCALA EASY VIBRA",
+  "description": "Sistema inteligente de planejamento e gestão de escalas operacionais mensais com foco em segurança preventiva, saúde e bem-estar no deslocamento dos colaboradores.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
