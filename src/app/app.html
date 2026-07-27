@@ -3439,11 +3439,7 @@
                             <h5 class="font-extrabold text-[10px] uppercase tracking-wider text-slate-400">Deslocamento (ETA)</h5>
                             <p class="text-[10px] text-slate-500">Integra o trajeto georreferenciado e o tráfego em tempo real para mitigar a Fadiga de Comutação.</p>
                           </div>
-                          <div class="p-3 rounded-xl border flex flex-col gap-1" [class]="isLightTheme() ? 'bg-slate-50 border-slate-200' : 'bg-[#071426]/30 border-[#10213b]/60'">
-                            <span class="material-icons text-amber-500 text-lg">thermostat</span>
-                            <h5 class="font-extrabold text-[10px] uppercase tracking-wider text-slate-400">Estresse Térmico</h5>
-                            <p class="text-[10px] text-slate-500">Calcula o Índice de Calor (Heat Index) para sugerir hidratação e pausas ativas na troca de turnos.</p>
-                          </div>
+
                           <div class="p-3 rounded-xl border flex flex-col gap-1" [class]="isLightTheme() ? 'bg-slate-50 border-slate-200' : 'bg-[#071426]/30 border-[#10213b]/60'">
                             <span class="material-icons text-emerald-400 text-lg">security</span>
                             <h5 class="font-extrabold text-[10px] uppercase tracking-wider text-slate-400">Segurança de Trajeto</h5>
@@ -3497,13 +3493,6 @@
                             <!-- DETAILS & COMMUTE DATA (RIGHT) -->
                             <div class="md:col-span-8 space-y-3.5">
                               <div class="grid grid-cols-2 gap-2 text-xs">
-                                <div class="p-2.5 rounded-lg border" [class]="isLightTheme() ? 'bg-slate-50/50 border-slate-150' : 'bg-slate-900/40 border-[#334155]/40'">
-                                  <span class="text-[8px] font-black uppercase text-slate-500 tracking-wider flex items-center gap-1">
-                                    <span class="material-icons text-xs text-blue-400">place</span> Destino (Posto)
-                                  </span>
-                                  <p class="font-extrabold truncate text-[10px] mt-1">{{ ict.posto.name }}</p>
-                                  <span class="text-[7.5px] font-mono text-slate-500 font-semibold block mt-0.5">Lat/Lng: {{ ict.posto.latitude }}, {{ ict.posto.longitude }}</span>
-                                </div>
 
                                 <div class="p-2.5 rounded-lg border" [class]="isLightTheme() ? 'bg-slate-50/50 border-slate-150' : 'bg-slate-900/40 border-[#334155]/40'">
                                   <span class="text-[8px] font-black uppercase text-slate-500 tracking-wider flex items-center gap-1">
