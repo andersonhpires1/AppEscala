@@ -15,9 +15,7 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 app.use(express.json());
 
-const angularApp = new AngularNodeAppEngine({
-  allowedHosts: ['*', 'localhost', 'localhost:3000', 'ais-dev-5d2mnfl6ebjbjykkfvoa5a-6295378643.us-west2.run.app']
-});
+const angularApp = new AngularNodeAppEngine();
 
 // Supabase Connection Setup
 const supabaseUrl = process.env['SUPABASE_URL'] || 'https://vefyegxmvjficncbetyp.supabase.co';

@@ -2965,11 +2965,147 @@
               }
 
               </div>
+              <!-- PORTAL CONTENT BY SUBTAB -->
+              @if (activeSubTab() === 'portal') {
+                <!-- INITIAL SCREEN (TELA INICIAL LIMPA) -->
+                <div id="panel-inicio-limpo" class="w-full max-w-4xl mx-auto space-y-6 py-4 animate-fade-in">
+                  
+                  <!-- CARD DA TELA INICIAL -->
+                  <div [class]="'w-full border rounded-2xl p-6 sm:p-8 transition-all duration-300 shadow-xl space-y-6 relative overflow-hidden ' + (isLightTheme() ? 'bg-white border-slate-200 text-slate-900' : 'bg-[#0F172A] border-[#334155] text-[#F8FAFC]')">
+                    
+                    <!-- BARRA DE ACENTO SUPERIOR -->
+                    <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-blue-500"></div>
+
+                    <!-- CABEÇALHO DA TELA INICIAL -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b" [class]="isLightTheme() ? 'border-slate-100' : 'border-[#334155]'">
+                      <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-inner">
+                          <span class="material-icons text-emerald-500 text-2xl">lightbulb</span>
+                        </div>
+                        <div>
+                          <div class="flex items-center gap-2">
+                            <h2 class="text-lg sm:text-xl font-black tracking-tight" [class]="isLightTheme() ? 'text-slate-900' : 'text-white'">
+                              Tela Inicial
+                            </h2>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                              Em Desenvolvimento
+                            </span>
+                          </div>
+                          <p class="text-xs font-semibold text-slate-500 mt-0.5">
+                            Escala Easy VIBRA • Painel do Colaborador
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- CAIXA DE MENSAGEM / NOTA DE INFORMAÇÃO SOLICITADA PELO USUÁRIO (OPÇÃO 2) -->
+                    <div [class]="'p-5 sm:p-6 rounded-xl border flex flex-col gap-3.5 transition-all ' + (isLightTheme() ? 'bg-emerald-50/70 border-emerald-200 text-emerald-950' : 'bg-emerald-950/20 border-emerald-500/30 text-emerald-100')">
+                      <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                          <span class="material-icons text-emerald-500 text-lg">campaign</span>
+                        </div>
+                        <div class="space-y-2">
+                          <h3 class="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                            Nota de Informação
+                          </h3>
+                          <p class="text-sm font-black leading-snug">
+                            "Esta é a tela inicial, porem esta sendo desenvolvida com os principais componentes que será decidido com os usuários. Aceito ideais!"
+                          </p>
+                          <p class="text-xs font-medium leading-relaxed opacity-90">
+                            Estamos desenvolvendo este espaço para reunir as ferramentas mais importantes no seu dia a dia. Como ele está em constante evolução, adoraríamos ouvir suas ideias e sugestões!
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- INSTRUÇÕES DE NAVEGAÇÃO -->
+                    <div [class]="'p-5 sm:p-6 rounded-xl border flex flex-col gap-4 transition-all ' + (isLightTheme() ? 'bg-slate-50 border-slate-200 text-slate-800' : 'bg-[#1E293B] border-[#334155] text-slate-200')">
+                      <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                          <span class="material-icons text-blue-500 text-lg">explore</span>
+                        </div>
+                        <div>
+                          <h3 class="text-xs font-black uppercase tracking-wider text-blue-500">
+                            Como Navegar Pelo Aplicativo
+                          </h3>
+                          <p class="text-xs font-bold text-slate-500 mt-0.5">
+                            Você tem duas formas simples para navegar pelas seções:
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                        <!-- INSTRUÇÃO 1: NAVEGAÇÃO POR BOTÕES -->
+                        <div [class]="'p-4 rounded-xl border flex items-start gap-3.5 ' + (isLightTheme() ? 'bg-white border-slate-200 shadow-sm' : 'bg-[#0F172A] border-[#334155]')">
+                          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                            <span class="material-icons text-emerald-500 text-base">touch_app</span>
+                          </div>
+                          <div class="space-y-1">
+                            <span class="text-[11px] font-black uppercase tracking-wider text-emerald-500 block">
+                              1. Botões do Menu
+                            </span>
+                            <p class="text-xs font-medium text-slate-500 leading-relaxed">
+                              Utilize os botões na barra de menu (ou na barra inferior em dispositivos móveis) para acessar diretamente cada seção.
+                            </p>
+                          </div>
+                        </div>
+
+                        <!-- INSTRUÇÃO 2: GESTO DE SWIPE COM EXEMPLO -->
+                        <div [class]="'p-4 rounded-xl border flex items-start gap-3.5 ' + (isLightTheme() ? 'bg-white border-slate-200 shadow-sm' : 'bg-[#0F172A] border-[#334155]')">
+                          <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                            <span class="material-icons text-amber-500 text-base">swipe</span>
+                          </div>
+                          <div class="space-y-1">
+                            <span class="text-[11px] font-black uppercase tracking-wider text-amber-500 block">
+                              2. Deslizar a Tela (Swipe)
+                            </span>
+                            <p class="text-xs font-medium text-slate-500 leading-relaxed">
+                              No seu celular ou tablet, basta <strong>deslizar o dedo para a esquerda ou direita</strong> para alternar entre as abas.
+                            </p>
+                            <span class="inline-block text-[10px] font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 mt-1">
+                              Exemplo: Deslize para a esquerda para abrir a Escala.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- BOTÕES DE ATALHO RÁPIDO PARA EXPERIMENTAR -->
+                      <div class="pt-3 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-3" [class]="isLightTheme() ? 'border-slate-200' : 'border-[#334155]'">
+                        <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                          <span class="material-icons text-sm text-emerald-500">ads_click</span>
+                          Acesso rápido às seções principais:
+                        </span>
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <button (click)="activeSubTab.set('escala')" class="px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider bg-emerald-500 text-white hover:bg-emerald-600 transition-all flex items-center gap-1 cursor-pointer shadow-sm">
+                            <span class="material-icons text-sm">calendar_month</span>
+                            Escala
+                          </button>
+                          <button (click)="activeSubTab.set('perfil')" class="px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider bg-blue-500 text-white hover:bg-blue-600 transition-all flex items-center gap-1 cursor-pointer shadow-sm">
+                            <span class="material-icons text-sm">person</span>
+                            Perfil
+                          </button>
+                          <button (click)="activeSubTab.set('equipe')" class="px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider bg-purple-500 text-white hover:bg-purple-600 transition-all flex items-center gap-1 cursor-pointer shadow-sm">
+                            <span class="material-icons text-sm">groups</span>
+                            Equipe
+                          </button>
+                          <button (click)="activeSubTab.set('indicadores')" class="px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider bg-amber-500 text-white hover:bg-amber-600 transition-all flex items-center gap-1 cursor-pointer shadow-sm">
+                            <span class="material-icons text-sm">analytics</span>
+                            Indicadores
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              }
+
               <!-- PORTAL GRID -->
-              <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 w-full">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 w-full" [class.hidden]="activeSubTab() === 'portal'">
                 
                 <!-- LEFT SIDEBAR: PROFILE MONITOR & STATS -->
-                @if (activeSubTab() === 'portal' || activeSubTab() === 'indicadores') {
+                @if (activeSubTab() === 'indicadores') {
                 <div class="lg:col-span-4 space-y-3.5">
 
                   <!-- CARD 1: MONITOR DE ESCALA -->
@@ -3231,10 +3367,10 @@
                 }
                 
                 <!-- MIDDLE/RIGHT CONTENT (8 COLUMNS) -->
-                @if (activeSubTab() === 'portal' || activeSubTab() === 'escala' || activeSubTab() === 'indicadores') {
+                @if (activeSubTab() === 'escala' || activeSubTab() === 'indicadores') {
                 <div class="lg:col-span-8 space-y-3">
                   
-                  @if (activeSubTab() === 'portal' || activeSubTab() === 'escala') {
+                  @if (activeSubTab() === 'escala') {
                   <div id="panel-trabalho-folga" [class]="'w-full border rounded-[16px] p-5 space-y-5 transition-all duration-300 ' + (isLightTheme() ? 'bg-white border-slate-200 text-slate-900 shadow-md' : 'bg-[#0F172A] border-[#334155] text-[#F8FAFC] shadow-lg')" [class.hidden]="activeSubTab() !== 'escala'">
                   
                   <!-- HEADER / TABS (SPLIT 50% / 50%) -->
