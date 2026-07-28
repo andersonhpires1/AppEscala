@@ -1,6 +1,6 @@
 {
   "name": "ai-studio-angular-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Escala Easy VIBRA - Gestão de escalas de operadores em pátios aeroportuários",
   "scripts": {
     "ng": "ng",
