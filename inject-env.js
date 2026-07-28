@@ -1,9 +1,21 @@
 const fs = require('fs');
 const path = require('path');
-const targetPath = path.join(__dirname, 'src', 'app', 'supabase-env.ts');
-const envFile = `export const supabaseEnv = {
-  url: '${process.env.SUPABASE_URL || ''}',
-  key: '${process.env.SUPABASE_KEY || ''}'
-};`;
-fs.writeFileSync(targetPath, envFile);
+
+const url = process.env.SUPABASE_URL || 'https://vefyegxmvjficncbetyp.supabase.co';
+const key = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || '';
+
+const content = `// Generated file - do not commit
+export const supabaseEnv = {
+  url: ${JSON.stringify(url)},
+  key: ${JSON.stringify(key)}
+};
+`;
+
+const dir = path.join(__dirname, 'src', 'app');
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir, { recursive: true });
+}
+
+fs.writeFileSync(path.join(dir, 'supabase-env.ts'), content);
 console.log('Successfully injected Supabase environment variables into src/app/supabase-env.ts');
+
