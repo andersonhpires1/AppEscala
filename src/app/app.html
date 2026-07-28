@@ -3549,40 +3549,6 @@
 
                   @if (activeSubTab() === 'indicadores') {
                     <div id="panel-indicadores-ict" class="w-full space-y-4">
-                      
-                      <!-- CARD PRINCIPAL: INTRODUÇÃO E CONCEITO -->
-                      <div [class]="'border rounded-[16px] p-5 space-y-4 transition-all duration-300 ' + (isLightTheme() ? 'bg-white border-slate-200 text-slate-900 shadow-md' : 'bg-[#0F172A] border-[#334155] text-[#F8FAFC] shadow-lg')">
-                        <div class="flex items-center justify-between pb-3 border-b" [class]="isLightTheme() ? 'border-slate-100' : 'border-[#334155]'">
-                          <div class="flex items-center gap-2.5">
-                            <span class="material-icons text-emerald-500">analytics</span>
-                            <div>
-                              <h3 class="text-sm sm:text-base font-black uppercase tracking-wider" [class]="isLightTheme() ? 'text-slate-800' : 'text-slate-100'">
-                                Indicadores de Conforto & Saúde Ocupacional
-                              </h3>
-                              <p class="text-[10px] text-slate-400 mt-0.5">Gestão preventiva de SST e fadiga de deslocamento no trajeto residência-trabalho.</p>
-                            </div>
-                          </div>
-                          <span class="text-[9px] font-mono font-black uppercase tracking-wider px-2 py-0.5 rounded shadow-sm"
-                                [class]="isLightTheme() ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'">
-                            SST Ativa
-                          </span>
-                        </div>
-
-                        <!-- METODOLOGIA E DESCRIÇÃO CIENTÍFICA -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs leading-relaxed">
-                          <div class="p-3 rounded-xl border flex flex-col gap-1" [class]="isLightTheme() ? 'bg-slate-50 border-slate-200' : 'bg-[#071426]/30 border-[#10213b]/60'">
-                            <span class="material-icons text-indigo-400 text-lg">commute</span>
-                            <h5 class="font-extrabold text-[10px] uppercase tracking-wider text-slate-400">Deslocamento (ETA)</h5>
-                            <p class="text-[10px] text-slate-500">Integra o trajeto georreferenciado e o tráfego em tempo real para mitigar a Fadiga de Comutação.</p>
-                          </div>
-
-                          <div class="p-3 rounded-xl border flex flex-col gap-1" [class]="isLightTheme() ? 'bg-slate-50 border-slate-200' : 'bg-[#071426]/30 border-[#10213b]/60'">
-                            <span class="material-icons text-emerald-400 text-lg">security</span>
-                            <h5 class="font-extrabold text-[10px] uppercase tracking-wider text-slate-400">Segurança de Trajeto</h5>
-                            <p class="text-[10px] text-slate-500">Cruzamento preditivo que protege a integridade física do colaborador em intempéries críticas.</p>
-                          </div>
-                        </div>
-                      </div>
 
                       @let logged = getLoggedCollab();
                       @if (logged) {
@@ -3595,40 +3561,11 @@
                             <span class="text-xs font-black uppercase tracking-wider">Meu Índice de Conforto do Trajeto (Hoje)</span>
                           </div>
 
-                          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                            <!-- SCORE GAUGE (LEFT) -->
-                            <div class="md:col-span-4 flex flex-col items-center justify-center p-4 rounded-xl border transition-all text-center"
-                                 [class]="ict.riskLevel === 'ALTO' ? 'bg-rose-500/10 border-rose-500/20' : ict.riskLevel === 'MÉDIO' ? 'bg-amber-500/10 border-amber-500/20' : 'bg-emerald-500/10 border-emerald-500/20'">
-                              
-                              <div class="relative w-24 h-24 flex items-center justify-center mx-auto">
-                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                  <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent" />
-                                  <circle cx="50" cy="50" r="40" 
-                                          [style.stroke]="ict.riskLevel === 'ALTO' ? '#f43f5e' : ict.riskLevel === 'MÉDIO' ? '#f59e0b' : '#10b981'" 
-                                          stroke-width="8" 
-                                          fill="transparent" 
-                                          stroke-dasharray="251.2"
-                                          [style.stroke-dashoffset]="251.2 - (251.2 * ict.score) / 100"
-                                          stroke-linecap="round" />
-                                </svg>
-                                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                  <span class="text-xl font-black font-mono tracking-tight leading-none">
-                                    {{ ict.score }}%
-                                  </span>
-                                  <span class="text-[7px] font-bold text-slate-500 uppercase tracking-widest mt-1">Score ICT</span>
-                                </div>
-                              </div>
+                          <div class="grid grid-cols-1 gap-4 items-center">
 
-                              <span class="text-[8.5px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-widest mt-3 inline-flex items-center gap-1 shadow-sm mx-auto"
-                                    [class]="ict.riskLevel === 'ALTO' ? 'bg-rose-500 text-white' : ict.riskLevel === 'MÉDIO' ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white'">
-                                <span class="material-icons text-[10px]">{{ ict.riskLevel === 'ALTO' ? 'gpp_bad' : ict.riskLevel === 'MÉDIO' ? 'gpp_maybe' : 'verified_user' }}</span>
-                                Risco {{ ict.riskLevel }}
-                              </span>
-                            </div>
-
-                            <!-- DETAILS & COMMUTE DATA (RIGHT) -->
-                            <div class="md:col-span-8 space-y-3.5">
-                              <div class="grid grid-cols-2 gap-2 text-xs">
+                            <!-- DETAILS & COMMUTE DATA -->
+                            <div class="w-full space-y-3.5">
+                              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
 
                                 <div class="p-2.5 rounded-lg border" [class]="isLightTheme() ? 'bg-slate-50/50 border-slate-150' : 'bg-slate-900/40 border-[#334155]/40'">
                                   <span class="text-[8px] font-black uppercase text-slate-500 tracking-wider flex items-center gap-1">
@@ -3654,6 +3591,69 @@
                                   </span>
                                   <p class="font-extrabold text-[10px] mt-1">{{ ict.temp }}°C • {{ ict.rainProb }}% Chuva</p>
                                   <span class="text-[7.5px] text-slate-500 font-semibold block mt-0.5">Sensação: {{ ict.heatIndex }}°C</span>
+                                </div>
+                              </div>
+
+                              <!-- DIV DESLOCAMENTO ATUAL (GPS) INCLUÍDA ABAIXO DO TEMPO DE TRAJETO -->
+                              <div class="p-3.5 rounded-xl border flex flex-col gap-2 transition-all" 
+                                   [class]="isLightTheme() ? 'bg-slate-50 border-slate-200 text-slate-800' : 'bg-[#071426]/50 border-[#10213b] text-white'">
+                                <div class="flex items-center justify-between">
+                                  <div class="flex items-center gap-1.5">
+                                    <span class="material-icons text-indigo-400 text-base">my_location</span>
+                                    <div>
+                                      <h5 class="font-black text-[10.5px] uppercase tracking-wider">Deslocamento Atual (GPS)</h5>
+                                      <span class="text-[8.5px] text-slate-400 block leading-tight">Cálculo do Tempo Atual do Local GPS &rarr; Posto de Trabalho</span>
+                                    </div>
+                                  </div>
+                                  <button (click)="refreshCurrentLocationCommute()"
+                                          class="p-1 rounded bg-slate-800/50 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700 cursor-pointer"
+                                          title="Atualizar posição atual via GPS">
+                                    <span class="material-icons text-xs" [class.animate-spin]="isRefreshingLocation()">my_location</span>
+                                  </button>
+                                </div>
+
+                                @let curCommute = getCurrentLocationCommute(logged);
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 my-0.5 items-center">
+                                  <!-- Display em Horas e Minutos -->
+                                  <div class="sm:col-span-1 p-2.5 rounded-lg border flex items-center justify-between"
+                                       [class]="isLightTheme() ? 'bg-white border-slate-200' : 'bg-[#030a14] border-[#10213b]'">
+                                    <div>
+                                      <span class="text-[8px] font-black uppercase text-slate-400 block">Duração Estimada Atual</span>
+                                      <span class="text-lg font-black font-mono text-indigo-400 leading-none">
+                                        {{ curCommute.formattedTime }}
+                                      </span>
+                                    </div>
+                                    <div class="text-right">
+                                      <span class="text-[8px] font-black uppercase text-slate-400 block">Chegada Prevista</span>
+                                      <span class="text-xs font-black font-mono text-emerald-400">
+                                        {{ curCommute.estimatedArrival }}
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <!-- Detalhes e Situação do Trânsito -->
+                                  <div class="sm:col-span-2 p-2.5 rounded-lg border grid grid-cols-2 gap-2 text-[9.5px]"
+                                       [class]="isLightTheme() ? 'bg-white border-slate-200' : 'bg-[#030a14] border-[#10213b]'">
+                                    <div>
+                                      <span class="text-slate-400 font-bold block text-[8px] uppercase">Origem Atual</span>
+                                      <span class="font-extrabold text-slate-200 truncate block" [title]="curCommute.currentLocationLabel">Localização GPS Atual</span>
+                                    </div>
+                                    <div>
+                                      <span class="text-slate-400 font-bold block text-[8px] uppercase">Destino (Empresa)</span>
+                                      <span class="font-extrabold text-slate-200 truncate block" [title]="curCommute.destinationName">{{ curCommute.destinationName }}</span>
+                                    </div>
+                                    <div class="col-span-2 flex items-center justify-between pt-1 border-t" [class]="isLightTheme() ? 'border-slate-100' : 'border-[#10213b]'">
+                                      <span class="text-slate-400 font-bold">Situação do Tráfego:</span>
+                                      <span class="font-black px-2 py-0.5 rounded text-[8.5px] uppercase border" [class]="curCommute.trafficBg + ' ' + curCommute.trafficColor">
+                                        {{ curCommute.trafficStatus }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="flex items-center justify-between text-[8px] font-mono text-slate-500 pt-1 border-t" [class]="isLightTheme() ? 'border-slate-200' : 'border-[#10213b]'">
+                                  <span>Cálculo em Horas/Minutos do Ponto GPS Atual</span>
+                                  <span class="text-indigo-400 font-bold">GPS Telemetria Ativa</span>
                                 </div>
                               </div>
 
@@ -4187,28 +4187,41 @@
                           </p>
                         </div>
                         
-                        <!-- Month Navigator -->
-                        <div class="flex items-center gap-1 bg-[#071426] border border-[#10213b] rounded-lg p-1"
-                             [class.bg-slate-100]="isLightTheme()"
-                             [class.border-slate-200]="isLightTheme()">
-                          <button (click)="prevMonth()" class="w-8 h-8 flex items-center justify-center rounded cursor-pointer text-slate-500 hover:text-emerald-400 hover:bg-[#0b1e36] transition-colors border-none outline-none"
-                                  [class.hover:bg-white]="isLightTheme()"
-                                  title="Mês Anterior">
-                            <span class="material-icons text-sm">chevron_left</span>
-                          </button>
-                          <div class="flex flex-col items-center justify-center min-w-[100px]">
-                            <span class="text-[9px] font-black uppercase text-slate-300 leading-tight"
-                                  [class.text-slate-700]="isLightTheme()">
-                              {{ currentMonthName() }}
-                            </span>
-                            <span class="text-[7px] font-bold text-slate-500 font-mono leading-tight">
-                              {{ currentYear() }}
-                            </span>
+                        <!-- Month Navigator & Edit Button -->
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <div class="flex items-center gap-1 bg-[#071426] border border-[#10213b] rounded-lg p-1"
+                               [class.bg-slate-100]="isLightTheme()"
+                               [class.border-slate-200]="isLightTheme()">
+                            <button (click)="prevMonth()" class="w-8 h-8 flex items-center justify-center rounded cursor-pointer text-slate-500 hover:text-emerald-400 hover:bg-[#0b1e36] transition-colors border-none outline-none"
+                                    [class.hover:bg-white]="isLightTheme()"
+                                    title="Mês Anterior">
+                              <span class="material-icons text-sm">chevron_left</span>
+                            </button>
+                            <div class="flex flex-col items-center justify-center min-w-[100px]">
+                              <span class="text-[9px] font-black uppercase text-slate-300 leading-tight"
+                                    [class.text-slate-700]="isLightTheme()">
+                                {{ currentMonthName() }}
+                              </span>
+                              <span class="text-[7px] font-bold text-slate-500 font-mono leading-tight">
+                                {{ currentYear() }}
+                              </span>
+                            </div>
+                            <button (click)="nextMonth()" class="w-8 h-8 flex items-center justify-center rounded cursor-pointer text-slate-500 hover:text-emerald-400 hover:bg-[#0b1e36] transition-colors border-none outline-none"
+                                    [class.hover:bg-white]="isLightTheme()"
+                                    title="Próximo Mês">
+                              <span class="material-icons text-sm">chevron_right</span>
+                            </button>
                           </div>
-                          <button (click)="nextMonth()" class="w-8 h-8 flex items-center justify-center rounded cursor-pointer text-slate-500 hover:text-emerald-400 hover:bg-[#0b1e36] transition-colors border-none outline-none"
-                                  [class.hover:bg-white]="isLightTheme()"
-                                  title="Próximo Mês">
-                            <span class="material-icons text-sm">chevron_right</span>
+
+                          <!-- Botão de Edição de Escala (Cor principal do tema) -->
+                          <button (click)="toggleCalendarEditMode()"
+                                  class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-black text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer border outline-none shadow-md"
+                                  [class]="isCalendarEditMode() ? 
+                                           'bg-amber-500 text-amber-950 border-amber-400 ring-2 ring-amber-400/30' : 
+                                           (isLightTheme() ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600' : 'bg-emerald-500 hover:bg-emerald-400 text-emerald-950 border-emerald-500')"
+                                  title="Editar escala dos dias deste mês">
+                            <span class="material-icons text-sm">{{ isCalendarEditMode() ? 'check_circle' : 'edit_calendar' }}</span>
+                            <span>{{ isCalendarEditMode() ? 'Concluir' : 'Editar' }}</span>
                           </button>
                         </div>
                       </div>
@@ -4232,11 +4245,13 @@
                           @let dayInfo = getCollaboratorDayScheduleInfo(logged, day);
                           @let count = getFolgaRequestCount(day);
 
-                          <div [class]="getCollaboratorCalendarDayStaticClass(logged, day, count)"
-                               [class.opacity-45]="isPastDay(day)"
-                               [class.saturate-[0.45]]="isPastDay(day)"
-                               class="transition-all duration-300">
+                          <div [class]="getCollaboratorCalendarDayClass(logged, day, count)"
+                               [class.opacity-45]="isPastDay(day) && !isCalendarEditMode()"
+                               [class.saturate-[0.45]]="isPastDay(day) && !isCalendarEditMode()"
+                               (click)="onPortalCalendarDayClick(day)"
+                               class="transition-all duration-300 relative group">
                             
+                            <!-- Badges & Edit Indicator -->
                             <div class="flex items-center justify-between w-full shrink-0">
                               <span class="font-extrabold font-mono text-[10px] sm:text-[12px] h-5 w-5 sm:h-6 sm:w-6 flex items-center justify-center rounded-full"
                                     [class.bg-emerald-500]="isToday(day)"
@@ -4244,22 +4259,30 @@
                                     [class.bg-emerald-500/20]="dayInfo.status === 'folga' && !isToday(day)"
                                     [class.text-emerald-400]="dayInfo.status === 'folga' && !isLightTheme() && !isToday(day)"
                                     [class.text-emerald-800]="dayInfo.status === 'folga' && isLightTheme() && !isToday(day)"
-                                    [class.bg-rose-500/20]="dayInfo.status === 'licenca' && !isToday(day)"
-                                    [class.text-rose-400]="dayInfo.status === 'licenca' && !isLightTheme() && !isToday(day)"
-                                    [class.text-rose-800]="dayInfo.status === 'licenca' && isLightTheme() && !isToday(day)"
-                                    [class.bg-slate-700/30]="dayInfo.status === 'trabalho' && !isLightTheme() && !isToday(day)"
-                                    [class.bg-slate-200/50]="dayInfo.status === 'trabalho' && isLightTheme() && !isToday(day)"
-                                    [class.text-slate-300]="dayInfo.status === 'trabalho' && !isLightTheme() && !isToday(day)"
-                                    [class.text-slate-700]="dayInfo.status === 'trabalho' && isLightTheme() && !isToday(day)">
+                                    [class.bg-amber-500/20]="(dayInfo.status === 'licenca' || dayInfo.status === 'afastamento') && !isToday(day)"
+                                    [class.text-amber-400]="(dayInfo.status === 'licenca' || dayInfo.status === 'afastamento') && !isLightTheme() && !isToday(day)"
+                                    [class.text-amber-800]="(dayInfo.status === 'licenca' || dayInfo.status === 'afastamento') && isLightTheme() && !isToday(day)"
+                                    [class.bg-blue-500/20]="dayInfo.status === 'trabalho' && !isToday(day)"
+                                    [class.text-blue-400]="dayInfo.status === 'trabalho' && !isLightTheme() && !isToday(day)"
+                                    [class.text-blue-800]="dayInfo.status === 'trabalho' && isLightTheme() && !isToday(day)"
+                                    [class.bg-slate-700/30]="dayInfo.status === 'sem_registro' && !isLightTheme() && !isToday(day)"
+                                    [class.bg-slate-200/50]="dayInfo.status === 'sem_registro' && isLightTheme() && !isToday(day)"
+                                    [class.text-slate-400]="dayInfo.status === 'sem_registro' && !isToday(day)">
                                 {{ day }}
                               </span>
-                              @if (events.length > 0) {
-                                <div class="flex items-center gap-0.5">
-                                  @for (ev of events; track ev.tooltip) {
-                                    <span class="material-icons text-[9px] sm:text-[11px] select-none" [style.color]="ev.color" [title]="ev.tooltip">{{ ev.icon }}</span>
-                                  }
-                                </div>
-                              }
+                              
+                              <div class="flex items-center gap-1">
+                                @if (isCalendarEditMode()) {
+                                  <span class="material-icons text-[11px] sm:text-xs text-amber-400 animate-bounce">edit</span>
+                                }
+                                @if (events.length > 0) {
+                                  <div class="flex items-center gap-0.5">
+                                    @for (ev of events; track ev.tooltip) {
+                                      <span class="material-icons text-[9px] sm:text-[11px] select-none" [style.color]="ev.color" [title]="ev.tooltip">{{ ev.icon }}</span>
+                                    }
+                                  </div>
+                                }
+                              </div>
                             </div>
 
                             <div class="flex flex-col items-start w-full gap-0.5 shrink-0 select-none mt-0.5 sm:mt-1 leading-none">
@@ -4267,11 +4290,11 @@
                                     [class.text-emerald-300]="isToday(day) && !isLightTheme()"
                                     [class.text-emerald-950]="isToday(day) && isLightTheme()"
                                     [class.text-emerald-400]="dayInfo.status === 'folga' && !isToday(day)"
-                                    [class.text-rose-400]="dayInfo.status === 'licenca' && !isToday(day)"
-                                    [class.text-slate-300]="dayInfo.status === 'trabalho' && !isLightTheme() && !isToday(day)"
-                                    [class.text-slate-700]="dayInfo.status === 'trabalho' && isLightTheme() && !isToday(day)">
-                                <span class="hidden sm:inline">{{ dayInfo.status === 'folga' ? 'FOLGA' : (dayInfo.status === 'licenca' || dayInfo.status === 'afastamento' ? 'AUSENTE' : 'TRABALHO') }}</span>
-                                <span class="inline sm:hidden">{{ dayInfo.status === 'folga' ? 'FOLGA' : (dayInfo.status === 'licenca' || dayInfo.status === 'afastamento' ? 'AUSENTE' : 'TRABALHO') }}</span>
+                                    [class.text-amber-400]="(dayInfo.status === 'licenca' || dayInfo.status === 'afastamento') && !isToday(day)"
+                                    [class.text-blue-400]="dayInfo.status === 'trabalho' && !isLightTheme() && !isToday(day)"
+                                    [class.text-blue-700]="dayInfo.status === 'trabalho' && isLightTheme() && !isToday(day)"
+                                    [class.text-slate-500]="dayInfo.status === 'sem_registro' && !isToday(day)">
+                                <span>{{ dayInfo.status === 'folga' ? 'FOLGA' : (dayInfo.status === 'licenca' || dayInfo.status === 'afastamento' ? 'AUSENTE' : (dayInfo.status === 'trabalho' ? 'TRABALHO' : 'SEM REGISTRO')) }}</span>
                               </span>
                             </div>
 
@@ -4279,7 +4302,7 @@
                                  [class.border-[#10213b]/20]="!isToday(day)"
                                  [class.border-emerald-500/30]="isToday(day) && !isLightTheme()"
                                  [class.border-emerald-300/40]="isToday(day) && isLightTheme()">
-                              <span class="text-[8.5px] font-bold font-mono"
+                              <span class="text-[8.5px] font-bold font-mono truncate"
                                     [class.text-slate-400]="!isToday(day)"
                                     [class.text-emerald-300/85]="isToday(day) && !isLightTheme()"
                                     [class.text-emerald-900/90]="isToday(day) && isLightTheme()">{{ dayInfo.subLabel }}</span>
@@ -5514,83 +5537,158 @@ CREATE TABLE IF NOT EXISTS public.audit_history (
     </div>
   }
 
-  <!-- MODAL: SELECIONAR ESCALA DO DIA NO PORTAL DO COLABORADOR -->
+  <!-- MODAL INDISCRETO PEQUENO: SELECIONAR SIGLA / ESCALA DO DIA -->
   @if (isPortalDayEditModalOpen()) {
     @let logged = getLoggedCollab();
     @if (logged) {
-      <div class="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in" id="modal_portal_day_edit_overlay">
-        <div class="bg-[#030a14] border border-[#10213b] rounded-xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col animate-slide-up" id="modal_portal_day_edit_content">
-          <!-- Header -->
-          <div class="px-5 py-4 border-b border-[#10213b]/60 flex justify-between items-center bg-[#071426]">
-            <div>
-              <h3 class="font-black text-sm uppercase tracking-wider text-white flex items-center gap-2">
-                <span class="material-icons text-emerald-500 text-lg">edit_calendar</span>
-                Escala do Dia {{ portalEditSelectedDay() }}
-              </h3>
-              <span class="text-[9px] font-bold text-slate-400 block uppercase mt-0.5">
-                Altere seu status de trabalho, folga ou ausência para este dia
-              </span>
+      <div class="fixed inset-0 z-[250] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in" id="modal_portal_day_edit_overlay">
+        <div [class]="'border rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden flex flex-col animate-scale-up duration-200 ' + 
+                     (isLightTheme() ? 'bg-white border-slate-200 text-slate-900' : 'bg-[#030a14] border-[#10213b] text-white')"
+             id="modal_portal_day_edit_content">
+          
+          <!-- Header (Indiscreto / Pequeno) -->
+          <div class="px-4 py-3 border-b flex justify-between items-center"
+               [class]="isLightTheme() ? 'border-slate-100 bg-slate-50' : 'border-[#10213b]/80 bg-[#071426]'">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <span class="material-icons text-sm">edit_calendar</span>
+              </div>
+              <div>
+                <h3 class="font-black text-xs uppercase tracking-wider" [class]="isLightTheme() ? 'text-slate-800' : 'text-white'">
+                  Dia {{ portalEditSelectedDay() }} - {{ currentMonthName() }}
+                </h3>
+                <span class="text-[9px] font-bold text-slate-400 block uppercase">
+                  Alterar Sigla / Escala
+                </span>
+              </div>
             </div>
-            <button (click)="isPortalDayEditModalOpen.set(false)" class="text-slate-400 hover:text-white transition-colors bg-transparent border-none outline-none cursor-pointer p-1">
+            <button (click)="isPortalDayEditModalOpen.set(false)"
+                    class="text-slate-400 hover:text-rose-500 transition-colors bg-transparent border-none outline-none cursor-pointer p-1 rounded-lg">
               <span class="material-icons text-base">close</span>
             </button>
           </div>
 
           <!-- Body -->
-          <div class="p-5 bg-[#030a14] flex flex-col gap-4">
-            <!-- Turno Base -->
+          <div class="p-4 flex flex-col gap-3.5 max-h-[70vh] overflow-y-auto scrollbar-thin">
+            
+            <!-- Opção 1: Sem Registro (Limpar / Não Contabilizar) -->
             <div>
-              <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Turno Regular de Trabalho</h4>
-              <div class="grid grid-cols-2 gap-2">
-                <button (click)="setPortalDayScale(getShiftCode(logged.shift))" 
-                        class="flex items-center justify-between p-3 rounded-lg border border-[#10213b] bg-[#071426] hover:border-emerald-500/50 hover:bg-[#10213b] transition-all cursor-pointer text-left w-full">
-                  <div>
-                    <span class="block text-xs font-bold text-white uppercase">{{ getShiftCode(logged.shift) }}</span>
-                    <span class="text-[9px] text-slate-400">Regular</span>
+              <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-1.5">Sem Registro / Limpar</span>
+              <button (click)="setPortalDayScale('-')"
+                      class="flex items-center justify-between p-2.5 rounded-xl border border-dashed transition-all cursor-pointer text-left w-full group"
+                      [class]="isLightTheme() ? 'bg-slate-50 border-slate-300 hover:border-slate-400 text-slate-700' : 'bg-[#071426]/50 border-[#10213b] hover:border-slate-500 text-slate-300'">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-6 h-6 rounded-md bg-slate-500/20 text-slate-400 flex items-center justify-center shrink-0">
+                    <span class="material-icons text-xs">cleaning_services</span>
                   </div>
-                  <span class="material-icons text-sm text-emerald-400">work</span>
+                  <div>
+                    <span class="block text-xs font-black uppercase text-slate-400">Sem Registro (-)</span>
+                    <span class="text-[9px] text-slate-400 block">Não contabilizar como trabalho nem folga</span>
+                  </div>
+                </div>
+                <span class="material-icons text-xs text-slate-500 group-hover:text-slate-300">chevron_right</span>
+              </button>
+            </div>
+
+            <!-- Opção 2: Folgas Padrão -->
+            <div>
+              <span class="text-[9px] font-black uppercase tracking-wider text-emerald-500 block mb-1.5">Folgas e DSR</span>
+              <div class="grid grid-cols-2 gap-2">
+                <button (click)="setPortalDayScale('F')"
+                        class="flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer text-left group"
+                        [class]="isLightTheme() ? 'bg-emerald-50/80 border-emerald-200 hover:bg-emerald-100/80 text-emerald-900' : 'bg-emerald-950/20 border-emerald-500/30 hover:bg-emerald-900/30 text-emerald-200'">
+                  <div>
+                    <span class="block text-xs font-black uppercase">F</span>
+                    <span class="text-[9px] text-emerald-500/80 block font-bold">Folga Escala</span>
+                  </div>
+                  <span class="material-icons text-xs text-emerald-400 shrink-0">event_available</span>
+                </button>
+
+                <button (click)="setPortalDayScale('FE')"
+                        class="flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer text-left group"
+                        [class]="isLightTheme() ? 'bg-emerald-50/80 border-emerald-200 hover:bg-emerald-100/80 text-emerald-900' : 'bg-emerald-950/20 border-emerald-500/30 hover:bg-emerald-900/30 text-emerald-200'">
+                  <div>
+                    <span class="block text-xs font-black uppercase">FE</span>
+                    <span class="text-[9px] text-emerald-500/80 block font-bold">Folga Escalonada</span>
+                  </div>
+                  <span class="material-icons text-xs text-emerald-400 shrink-0">date_range</span>
                 </button>
               </div>
             </div>
 
-            <!-- Folga -->
+            <!-- Opção 3: Siglas Cadastradas no App / Banco de Dados -->
+            @if (scaleService.siglaTypes().length > 0) {
+              <div>
+                <span class="text-[9px] font-black uppercase tracking-wider text-amber-500 block mb-1.5">Siglas e Afastamentos</span>
+                <div class="grid grid-cols-2 gap-2">
+                  @for (sigla of scaleService.siglaTypes(); track sigla.code) {
+                    <button (click)="setPortalDayScale(sigla.code)"
+                            class="flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer text-left group truncate"
+                            [class]="isLightTheme() ? 'bg-amber-50/80 border-amber-200 hover:bg-amber-100/80 text-amber-900' : 'bg-amber-950/20 border-amber-500/30 hover:bg-amber-900/30 text-amber-200'">
+                      <div class="truncate">
+                        <span class="block text-xs font-black uppercase truncate">{{ sigla.code }}</span>
+                        <span class="text-[9px] text-amber-500/80 block truncate font-bold" [title]="sigla.label">{{ sigla.label }}</span>
+                      </div>
+                      <span class="material-icons text-xs text-amber-400 shrink-0 ml-1">badge</span>
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+
+            <!-- Opção 4: Atestados e Licenças Rápidas -->
             <div>
-              <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 font-mono">Folga ou DSR</h4>
+              <span class="text-[9px] font-black uppercase tracking-wider text-rose-500 block mb-1.5">Atestados e Licenças</span>
               <div class="grid grid-cols-2 gap-2">
-                <button (click)="setPortalDayScale('F')" 
-                        class="flex items-center justify-between p-3 rounded-lg border border-[#10213b] bg-[#071426] hover:border-emerald-500/50 hover:bg-[#10213b] transition-all cursor-pointer text-left w-full">
+                <button (click)="setPortalDayScale('AT')"
+                        class="flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer text-left group"
+                        [class]="isLightTheme() ? 'bg-rose-50/80 border-rose-200 hover:bg-rose-100/80 text-rose-900' : 'bg-rose-950/20 border-rose-500/30 hover:bg-rose-900/30 text-rose-200'">
                   <div>
-                    <span class="block text-xs font-bold text-white uppercase">F</span>
-                    <span class="text-[9px] text-slate-400">Folga Escala</span>
+                    <span class="block text-xs font-black uppercase">AT</span>
+                    <span class="text-[9px] text-rose-500/80 block font-bold">Atestado Médico</span>
                   </div>
-                  <span class="material-icons text-sm text-emerald-400">event_available</span>
+                  <span class="material-icons text-xs text-rose-400 shrink-0">medical_services</span>
+                </button>
+
+                <button (click)="setPortalDayScale('TR')"
+                        class="flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer text-left group"
+                        [class]="isLightTheme() ? 'bg-rose-50/80 border-rose-200 hover:bg-rose-100/80 text-rose-900' : 'bg-rose-950/20 border-rose-500/30 hover:bg-rose-900/30 text-rose-200'">
+                  <div>
+                    <span class="block text-xs font-black uppercase">TR</span>
+                    <span class="text-[9px] text-rose-500/80 block font-bold">Treinamento</span>
+                  </div>
+                  <span class="material-icons text-xs text-rose-400 shrink-0">school</span>
                 </button>
               </div>
             </div>
 
-            <!-- Afastamentos / Siglas cadastrados -->
+            <!-- Opção 5: Jornada Regular de Trabalho -->
             <div>
-              <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 font-mono">Ausências / Afastamentos / Licenças</h4>
-              <div class="grid grid-cols-2 gap-2 max-h-[160px] overflow-y-auto pr-1 scrollbar-thin">
-                @for (sigla of scaleService.siglaTypes(); track sigla.code) {
-                  <!-- Skip regular shifts or basic work codes if any -->
-                  <button (click)="setPortalDayScale(sigla.code)" 
-                          class="flex items-center justify-between p-3 rounded-lg border border-[#10213b] bg-[#071426] hover:border-emerald-500/50 hover:bg-[#10213b] transition-all cursor-pointer text-left w-full">
-                    <div class="truncate">
-                      <span class="block text-xs font-bold text-white uppercase truncate">{{ sigla.code }}</span>
-                      <span class="text-[9px] text-slate-400 block truncate" [title]="sigla.label">{{ sigla.label }}</span>
-                    </div>
-                    <span class="material-icons text-sm text-rose-400 shrink-0">badge</span>
-                  </button>
-                }
-              </div>
+              <span class="text-[9px] font-black uppercase tracking-wider text-blue-500 block mb-1.5">Jornada de Trabalho</span>
+              <button (click)="setPortalDayScale(getShiftCode(logged.shift))"
+                      class="flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer text-left w-full group"
+                      [class]="isLightTheme() ? 'bg-blue-50/80 border-blue-200 hover:bg-blue-100/80 text-blue-900' : 'bg-blue-950/20 border-blue-500/30 hover:bg-blue-900/30 text-blue-200'">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                    <span class="material-icons text-xs">work</span>
+                  </div>
+                  <div>
+                    <span class="block text-xs font-black uppercase">{{ getShiftCode(logged.shift) }}</span>
+                    <span class="text-[9px] text-blue-400/80 block font-bold">Jornada Regular ({{ logged.shift }})</span>
+                  </div>
+                </div>
+                <span class="material-icons text-xs text-blue-400">check_circle</span>
+              </button>
             </div>
+
           </div>
 
           <!-- Footer -->
-          <div class="px-5 py-4 border-t border-[#10213b]/60 bg-[#071426] flex justify-end">
-            <button (click)="isPortalDayEditModalOpen.set(false)" 
-                    class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-[10px] uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none">
+          <div class="px-4 py-3 border-t flex justify-end"
+               [class]="isLightTheme() ? 'border-slate-100 bg-slate-50' : 'border-[#10213b]/80 bg-[#071426]'">
+            <button (click)="isPortalDayEditModalOpen.set(false)"
+                    class="px-3.5 py-1.5 font-black text-[10px] uppercase tracking-wider rounded-lg transition-all cursor-pointer border outline-none"
+                    [class]="isLightTheme() ? 'bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'">
               Cancelar
             </button>
           </div>

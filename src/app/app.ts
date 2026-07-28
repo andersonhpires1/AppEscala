@@ -520,6 +520,125 @@ export class App {
     };
   }
 
+  public portalTransportMode = signal<'carro' | 'moto' | 'transporte' | 'pe'>('carro');
+
+  public setPortalTransportMode(mode: 'carro' | 'moto' | 'transporte' | 'pe') {
+    this.portalTransportMode.set(mode);
+  }
+
+  public getCollabAddressLabel(collab: Collaborator): string {
+    const geo = this.getCollabGeoData(collab);
+    if ((collab as any).endereco) {
+      return (collab as any).endereco;
+    }
+    let hash = 0;
+    for (let i = 0; i < collab.id.length; i++) {
+      hash = collab.id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const num = (Math.abs(hash) % 850) + 12;
+    return `Rua Residencial do Colaborador, nº ${num}`;
+  }
+
+  public getCalculatedCommute(collab: Collaborator, mode?: 'carro' | 'moto' | 'transporte' | 'pe') {
+    const selectedMode = mode || this.portalTransportMode();
+    const ict = this.getICTForCollab(collab);
+    
+    let speedKmh = 35;
+    let trafficMultiplier = 1.0;
+    let fixedDelay = 0;
+    let modeName = 'Carro / Automóvel';
+
+    if (selectedMode === 'moto') {
+      speedKmh = 42;
+      trafficMultiplier = 0.4;
+      modeName = 'Motocicleta';
+    } else if (selectedMode === 'transporte') {
+      speedKmh = 22;
+      trafficMultiplier = 0.7;
+      fixedDelay = 12;
+      modeName = 'Transporte Público (Ônibus/Metrô)';
+    } else if (selectedMode === 'pe') {
+      speedKmh = 14;
+      trafficMultiplier = 0.0;
+      modeName = 'Bicicleta / A pé';
+    }
+
+    const baseTimeMin = Math.round((ict.distanceKm / speedKmh) * 60);
+    const calculatedTrafficDelay = Math.round(ict.routeDelayMin * trafficMultiplier) + fixedDelay;
+    const totalCommuteMin = baseTimeMin + calculatedTrafficDelay;
+
+    return {
+      originAddress: this.getCollabAddressLabel(collab),
+      destinationName: ict.posto.name,
+      distanceKm: ict.distanceKm,
+      baseTimeMin,
+      trafficDelayMin: calculatedTrafficDelay,
+      totalCommuteMin,
+      mode: selectedMode,
+      modeName,
+      speedKmh,
+      latRes: ict.latRes,
+      lngRes: ict.lngRes,
+      postoLat: ict.posto.latitude,
+      postoLng: ict.posto.longitude
+    };
+  }
+
+  public isRefreshingLocation = signal<boolean>(false);
+
+  public refreshCurrentLocationCommute() {
+    this.isRefreshingLocation.set(true);
+    setTimeout(() => {
+      this.isRefreshingLocation.set(false);
+    }, 700);
+  }
+
+  public formatMinutesToHoursMinutes(totalMin: number): string {
+    if (!totalMin || totalMin <= 0) return '0 min';
+    const hours = Math.floor(totalMin / 60);
+    const mins = totalMin % 60;
+    if (hours === 0) {
+      return `${mins} min`;
+    }
+    return `${hours}h ${mins < 10 ? '0' + mins : mins}min`;
+  }
+
+  public getCurrentLocationCommute(collab: Collaborator) {
+    const commute = this.getCalculatedCommute(collab);
+    const formattedTime = this.formatMinutesToHoursMinutes(commute.totalCommuteMin);
+
+    let trafficStatus = 'Trânsito Normal / Livre';
+    let trafficColor = 'text-emerald-400';
+    let trafficBg = 'bg-emerald-500/10 border-emerald-500/20';
+    if (commute.trafficDelayMin > 15) {
+      trafficStatus = 'Trânsito Intenso / Lentidão';
+      trafficColor = 'text-rose-400';
+      trafficBg = 'bg-rose-500/10 border-rose-500/20';
+    } else if (commute.trafficDelayMin > 5) {
+      trafficStatus = 'Trânsito Moderado';
+      trafficColor = 'text-amber-400';
+      trafficBg = 'bg-amber-500/10 border-amber-500/20';
+    }
+
+    return {
+      ...commute,
+      formattedTime,
+      trafficStatus,
+      trafficColor,
+      trafficBg,
+      currentLocationLabel: 'GPS / Localização Atual do Aparelho',
+      estimatedArrival: this.getEstimatedArrivalTime(commute.totalCommuteMin)
+    };
+  }
+
+  public getEstimatedArrivalTime(totalMin: number): string {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + totalMin);
+    const h = now.getHours().toString().padStart(2, '0');
+    const m = now.getMinutes().toString().padStart(2, '0');
+    return `${h}:${m}`;
+  }
+
   public getFilteredCollabCountByRisk(risk: 'BAIXO' | 'MÉDIO' | 'ALTO'): number {
     return this.scaleService.collaborators().filter(c => {
       const ict = this.getICTForCollab(c);
@@ -2137,6 +2256,17 @@ export class App {
   collaboratorProfileDarkMode = signal<boolean>(true);
   isPortalDayEditModalOpen = signal<boolean>(false);
   portalEditSelectedDay = signal<number>(1);
+  isCalendarEditMode = signal<boolean>(false);
+
+  public toggleCalendarEditMode(): void {
+    const val = !this.isCalendarEditMode();
+    this.isCalendarEditMode.set(val);
+    if (val) {
+      this.showToast('Modo de edição de escala ativado! Clique em qualquer dia do calendário para alterar sua folga, sigla ou ausência.');
+    } else {
+      this.showToast('Edição do calendário concluída.');
+    }
+  }
 
   // Permuta (Trade Shift) simulation state
   isPermutaModalOpen = signal<boolean>(false);
@@ -2646,12 +2776,12 @@ export class App {
   getLoggedCollabOffDays(): number[] {
     const collab = this.getLoggedCollab();
     if (!collab) return [];
-    return this.daysInMonth().filter(day => !this.isWorkDay(collab, day));
+    return this.daysInMonth().filter(day => this.isOffDay(collab, day));
   }
 
   getCollabOffDays(collab: any): number[] {
     if (!collab) return [];
-    return this.daysInMonth().filter(day => !this.isWorkDay(collab, day));
+    return this.daysInMonth().filter(day => this.isOffDay(collab, day));
   }
 
   getFilteredCollabOffDays(collab: any): number[] {
@@ -4664,13 +4794,13 @@ export class App {
   isWorkDay(collab: any, d: number): boolean {
     if (!collab) return false;
     const cellValRaw = collab.scale && collab.scale[d] !== undefined ? collab.scale[d] : '-';
-    const cellVal = (cellValRaw === '-') ? this.getShiftCode(collab.shift) : cellValRaw;
-    const upperCode = cellVal.toUpperCase().trim();
-    
-    if (upperCode === '' || upperCode === '-') return true; // Default shift is a work day
+    if (!cellValRaw || cellValRaw === '-' || cellValRaw === '' || cellValRaw === 'CLEAR') {
+      return false; // Se não houver nada registrado para este dia, NÃO contabiliza como trabalho
+    }
+    const upperCode = cellValRaw.toUpperCase().trim();
     
     // Is it a folga / leave / absence code?
-    const offCodes = ['F', 'FF', 'FE', 'FM', 'FT', 'FN', 'X', 'LM', 'LMT', 'LA'];
+    const offCodes = ['F', 'FF', 'FE', 'FM', 'FT', 'FN', 'X', 'LM', 'LMT', 'LA', 'AT', 'TR', 'CLEAR', 'OFF'];
     if (offCodes.includes(upperCode)) return false;
     
     // Check if it exists in siglaTypes
@@ -4680,6 +4810,21 @@ export class App {
     }
     
     return true;
+  }
+
+  isOffDay(collab: any, d: number): boolean {
+    if (!collab) return false;
+    const cellValRaw = collab.scale && collab.scale[d] !== undefined ? collab.scale[d] : '-';
+    if (!cellValRaw || cellValRaw === '-' || cellValRaw === '' || cellValRaw === 'CLEAR') {
+      return false; // Se não houver nada registrado para este dia, NÃO contabiliza como folga
+    }
+    const upperCode = cellValRaw.toUpperCase().trim();
+    
+    const offCodes = ['F', 'FF', 'FE', 'FM', 'FT', 'FN', 'X', 'LM', 'LMT', 'LA', 'AT', 'TR', 'OFF'];
+    if (offCodes.includes(upperCode)) return true;
+    
+    const sigla = this.scaleService.siglaTypes().find(s => s.code.trim().toUpperCase() === upperCode);
+    return !!sigla;
   }
 
   getWorkSequenceString(collab: any, day: number): string {
@@ -4976,7 +5121,7 @@ export class App {
    * Obtém informações detalhadas de status, rótulo e horários para um colaborador específico no dia selecionado.
    */
   getCollaboratorDayScheduleInfo(collab: any, day: number): {
-    status: 'trabalho' | 'folga' | 'afastamento' | 'licenca';
+    status: 'trabalho' | 'folga' | 'afastamento' | 'licenca' | 'sem_registro';
     label: string;
     subLabel: string;
     hours: string;
@@ -4987,10 +5132,10 @@ export class App {
   } {
     if (!collab) {
       return {
-        status: 'trabalho',
+        status: 'sem_registro',
         label: '-',
         subLabel: 'Sem escala',
-        hours: '',
+        hours: 'Não contabilizado',
         color: 'bg-[#071426]',
         borderColor: 'border-[#10213b]',
         textColor: 'text-slate-400',
@@ -4999,18 +5144,30 @@ export class App {
     }
 
     const cellValRaw = collab.scale && collab.scale[day] !== undefined ? collab.scale[day] : '-';
-    const cellVal = (cellValRaw === '-') ? (collab.shift || '-') : cellValRaw;
-    const upperCode = cellVal.toUpperCase().trim();
+    if (!cellValRaw || cellValRaw === '-' || cellValRaw === '' || cellValRaw === 'CLEAR') {
+      return {
+        status: 'sem_registro',
+        label: '-',
+        subLabel: 'Sem Registro',
+        hours: 'Não contabilizado',
+        color: this.isLightTheme() ? 'bg-slate-100/50' : 'bg-slate-900/40',
+        borderColor: this.isLightTheme() ? 'border-slate-200' : 'border-[#10213b]',
+        textColor: 'text-slate-400',
+        icon: 'event_busy'
+      };
+    }
+
+    const upperCode = cellValRaw.toUpperCase().trim();
 
     // Verifica siglas de afastamento ou folga oficiais
     const isFolgaCode = ['F', 'FF', 'FE', 'FM', 'FT', 'FN', 'X'].includes(upperCode);
-    const isLicencaCode = ['LM', 'LMT', 'LA'].includes(upperCode);
+    const isLicencaCode = ['LM', 'LMT', 'LA', 'AT', 'TR'].includes(upperCode);
 
     if (isFolgaCode || upperCode === 'X') {
       return {
         status: 'folga',
         label: upperCode,
-        subLabel: 'Folga Escalonada',
+        subLabel: upperCode === 'F' ? 'Folga Escala' : (upperCode === 'FE' ? 'Folga Escalonada' : 'Folga Programada'),
         hours: 'Descanso Oficial',
         color: this.isLightTheme() ? 'bg-emerald-50/80' : 'bg-emerald-950/25',
         borderColor: 'border-emerald-500/80',
@@ -5021,8 +5178,8 @@ export class App {
       return {
         status: 'licenca',
         label: upperCode,
-        subLabel: 'Afastamento Médico',
-        hours: 'Afastado',
+        subLabel: upperCode === 'AT' ? 'Atestado Médico' : (upperCode === 'TR' ? 'Treinamento' : 'Afastamento Médico'),
+        hours: 'Afastado / Licença',
         color: this.isLightTheme() ? 'bg-rose-50' : 'bg-rose-950/20',
         borderColor: 'border-rose-500/60',
         textColor: 'text-rose-400',
@@ -5030,22 +5187,35 @@ export class App {
       };
     }
 
-    // Retorna dia letivo / de trabalho normal
+    // Siglas cadastradas no banco de dados
+    const sigla = this.scaleService.siglaTypes().find(s => s.code.trim().toUpperCase() === upperCode);
+    if (sigla) {
+      return {
+        status: sigla.computaAusencia ? 'licenca' : 'folga',
+        label: sigla.code,
+        subLabel: sigla.label || sigla.code,
+        hours: sigla.description || 'Sigla Registrada',
+        color: this.isLightTheme() ? 'bg-amber-50/80' : 'bg-amber-950/25',
+        borderColor: 'border-amber-500/60',
+        textColor: 'text-amber-400',
+        icon: 'badge'
+      };
+    }
+
+    // Retorna dia de trabalho
+    const shiftType = this.scaleService.shiftTypes().find(s => s.code.trim().toUpperCase() === upperCode);
     return {
       status: 'trabalho',
       label: upperCode,
-      subLabel: 'Dia de Trabalho',
-      hours: 'Escala Normal',
-      color: this.isLightTheme() ? 'bg-slate-50' : 'bg-[#071426]/30',
-      borderColor: this.isLightTheme() ? 'border-slate-200' : 'border-[#10213b]',
-      textColor: this.isLightTheme() ? 'text-slate-700' : 'text-slate-300',
+      subLabel: shiftType ? shiftType.label : 'Dia de Trabalho',
+      hours: shiftType?.hours || 'Escala Normal',
+      color: this.isLightTheme() ? 'bg-blue-50/80' : 'bg-blue-950/25',
+      borderColor: this.isLightTheme() ? 'border-blue-200' : 'border-blue-500/40',
+      textColor: this.isLightTheme() ? 'text-blue-700' : 'text-blue-300',
       icon: 'work'
     };
   }
 
-  /**
-   * Retorna as classes CSS do Tailwind de forma dinâmica para renderizar os cards do calendário (estático/apenas representativo).
-   */
   getCollaboratorCalendarDayStaticClass(collab: any, day: number, count: number): string {
     const base = 'p-1.5 sm:p-3 border rounded-lg sm:rounded-xl flex flex-col justify-between gap-1 sm:gap-1.5 min-h-[54px] sm:min-h-[96px] w-full text-left shadow-sm duration-200 select-none relative overflow-hidden cursor-default';
     
@@ -5062,11 +5232,18 @@ export class App {
     }
 
     const cellValRaw = collab.scale && collab.scale[day] !== undefined ? collab.scale[day] : '-';
-    const cellVal = (cellValRaw === '-') ? (collab.shift || '-') : cellValRaw;
-    const upperCode = cellVal.toUpperCase().trim();
+    if (!cellValRaw || cellValRaw === '-' || cellValRaw === '' || cellValRaw === 'CLEAR') {
+      if (this.isLightTheme()) {
+        return `${base} bg-slate-50/60 border-slate-200 text-slate-400`;
+      } else {
+        return `${base} bg-[#041021]/40 border-[#10213b]/60 text-slate-500`;
+      }
+    }
 
+    const upperCode = cellValRaw.toUpperCase().trim();
     const isFolga = ['F', 'FF', 'FE', 'FM', 'FT', 'FN', 'X'].includes(upperCode);
-    const isAbsence = ['LM', 'LMT', 'LA'].includes(upperCode);
+    const isAbsence = ['LM', 'LMT', 'LA', 'AT', 'TR'].includes(upperCode);
+    const sigla = this.scaleService.siglaTypes().find(s => s.code.trim().toUpperCase() === upperCode);
 
     if (isFolga) {
       if (this.isLightTheme()) {
@@ -5074,37 +5251,45 @@ export class App {
       } else {
         return `${base} bg-gradient-to-br from-emerald-950/20 to-[#030a14] border-emerald-500/50 text-emerald-200 shadow-emerald-950/10`;
       }
-    } else if (isAbsence) {
+    } else if (isAbsence || sigla) {
       if (this.isLightTheme()) {
-        return `${base} bg-rose-50 border-rose-300 text-rose-800`;
+        return `${base} bg-amber-50 border-amber-300 text-amber-800`;
       } else {
-        return `${base} bg-gradient-to-br from-red-950/20 to-[#030a14] border-rose-500/40 text-rose-200`;
+        return `${base} bg-gradient-to-br from-amber-950/20 to-[#030a14] border-amber-500/40 text-amber-200`;
       }
     } else {
       if (this.isLightTheme()) {
-        return `${base} bg-white border-slate-200 text-slate-700`;
+        return `${base} bg-blue-50/50 border-blue-200 text-blue-800`;
       } else {
-        return `${base} bg-[#041021]/80 border-[#10213b] text-slate-300`;
+        return `${base} bg-gradient-to-br from-blue-950/20 to-[#030a14] border-blue-500/40 text-blue-200`;
       }
     }
   }
 
-  /**
-   * Retorna as classes CSS do Tailwind de forma dinâmica para renderizar os cards do calendário.
-   */
   getCollaboratorCalendarDayClass(collab: any, day: number, count: number): string {
-    const base = 'p-1.5 sm:p-3 border rounded-lg sm:rounded-xl flex flex-col justify-between gap-1 sm:gap-1.5 transition-all cursor-pointer min-h-[54px] sm:min-h-[96px] w-full text-left shadow-sm hover:scale-[1.02] hover:shadow-md duration-200 outline-none select-none relative overflow-hidden';
+    let base = 'p-1.5 sm:p-3 border rounded-lg sm:rounded-xl flex flex-col justify-between gap-1 sm:gap-1.5 transition-all cursor-pointer min-h-[54px] sm:min-h-[96px] w-full text-left shadow-sm hover:scale-[1.02] hover:shadow-md duration-200 outline-none select-none relative overflow-hidden';
     
+    if (this.isCalendarEditMode()) {
+      base += ' ring-2 ring-emerald-400/80 border-dashed animate-pulse-subtle hover:scale-105';
+    }
+
     if (!collab) {
       return `${base} bg-slate-900/30 border-slate-800 text-slate-500`;
     }
 
     const cellValRaw = collab.scale && collab.scale[day] !== undefined ? collab.scale[day] : '-';
-    const cellVal = (cellValRaw === '-') ? (collab.shift || '-') : cellValRaw;
-    const upperCode = cellVal.toUpperCase().trim();
+    if (!cellValRaw || cellValRaw === '-' || cellValRaw === '' || cellValRaw === 'CLEAR') {
+      if (this.isLightTheme()) {
+        return `${base} bg-slate-50/80 border-slate-200 hover:border-emerald-500 text-slate-400`;
+      } else {
+        return `${base} bg-[#041021]/50 border-[#10213b] hover:border-emerald-400 text-slate-500`;
+      }
+    }
 
+    const upperCode = cellValRaw.toUpperCase().trim();
     const isFolga = ['F', 'FF', 'FE', 'FM', 'FT', 'FN', 'X'].includes(upperCode);
-    const isAbsence = ['LM', 'LMT', 'LA'].includes(upperCode);
+    const isAbsence = ['LM', 'LMT', 'LA', 'AT', 'TR'].includes(upperCode);
+    const sigla = this.scaleService.siglaTypes().find(s => s.code.trim().toUpperCase() === upperCode);
 
     if (isFolga) {
       if (this.isLightTheme()) {
@@ -5112,17 +5297,17 @@ export class App {
       } else {
         return `${base} bg-gradient-to-br from-emerald-950/20 to-[#030a14] border-emerald-500/50 hover:border-emerald-400 text-emerald-200 shadow-emerald-950/10`;
       }
-    } else if (isAbsence) {
+    } else if (isAbsence || sigla) {
       if (this.isLightTheme()) {
-        return `${base} bg-rose-50 border-rose-300 hover:border-rose-500 text-rose-800`;
+        return `${base} bg-amber-50 border-amber-300 hover:border-amber-500 text-amber-800`;
       } else {
-        return `${base} bg-gradient-to-br from-red-950/20 to-[#030a14] border-rose-500/40 hover:border-rose-400 text-rose-200`;
+        return `${base} bg-gradient-to-br from-amber-950/20 to-[#030a14] border-amber-500/40 hover:border-amber-400 text-amber-200`;
       }
     } else {
       if (this.isLightTheme()) {
-        return `${base} bg-white border-slate-200 hover:border-slate-400 text-slate-700`;
+        return `${base} bg-blue-50/60 border-blue-200 hover:border-blue-400 text-blue-800`;
       } else {
-        return `${base} bg-[#041021]/80 border-[#10213b] hover:border-slate-500 text-slate-300`;
+        return `${base} bg-[#041021]/80 border-blue-900/40 hover:border-blue-400 text-blue-200`;
       }
     }
   }
