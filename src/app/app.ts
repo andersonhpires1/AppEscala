@@ -112,7 +112,8 @@ export class App {
 
   onResize() {
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      if (this.activeSubTab() !== 'portal') {
+      const adminTabs = ['matrix', 'ger.turnos', 'siglas', 'team', 'team-mgmt'];
+      if (adminTabs.includes(this.activeSubTab())) {
         this.activeSubTab.set('portal');
       }
     }
@@ -2514,16 +2515,6 @@ export class App {
         this.isFirstAccess.set(false);
       }
     }, { allowSignalWrites: true });
-
-    // Efeito para forçar o RBAC: Colaboradores normais ficam estritamente travados no Portal do Colaborador
-    effect(() => {
-      const logged = this.getLoggedCollab();
-      if (logged && !this.isAdmin(logged)) {
-        if (this.activeSubTab() !== 'portal') {
-          this.activeSubTab.set('portal');
-        }
-      }
-    });
   }
 
   // Clock Update Function
