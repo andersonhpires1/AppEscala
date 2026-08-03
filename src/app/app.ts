@@ -317,7 +317,7 @@ export class App {
   public dayDetailsActiveTab = signal<'seu_turno' | 'turno_posterior' | 'geral'>('seu_turno');
   public selectedCalendarDay = signal<number>(new Date().getDate());
   public hidePastDays = signal<boolean>(true);
-  public coworkersFilter = signal<'MEU_TURNO' | 'TURNO_ANTERIOR' | 'TURNO_POSTERIOR' | 'TODOS'>('MEU_TURNO');
+  public coworkersFilter = signal<'MANHÃ' | 'TARDE' | 'MEIO-TURNO' | 'TODOS'>('TODOS');
 
   // Weather Sub-Header Signals & Methods (Guarulhos Base)
   public rawHourlyWeather = signal<HourlyWeatherItem[]>([]);
@@ -5009,16 +5009,13 @@ export class App {
       if (!this.isWorkDay(c, day)) return false;
       
       const cBaseShift = (c.shift || '').trim().toUpperCase();
-      const loggedBaseShift = (logged.shift || '').trim().toUpperCase();
 
-      if (filter === 'MEU_TURNO') {
-        return cBaseShift === loggedBaseShift || (loggedBaseShift === 'MANHÃ' && cBaseShift === 'MANHA') || (loggedBaseShift === 'MANHA' && cBaseShift === 'MANHÃ');
-      } else if (filter === 'TURNO_ANTERIOR') {
-        const prevShift = this.getPreviousShiftLabel().toUpperCase();
-        return cBaseShift === prevShift || (prevShift === 'MANHÃ' && cBaseShift === 'MANHA') || (prevShift === 'MANHA' && cBaseShift === 'MANHÃ');
-      } else if (filter === 'TURNO_POSTERIOR') {
-        const postShift = this.getPosteriorShiftLabel().toUpperCase();
-        return cBaseShift === postShift || (postShift === 'MANHÃ' && cBaseShift === 'MANHA') || (postShift === 'MANHA' && cBaseShift === 'MANHÃ');
+      if (filter === 'MANHÃ') {
+        return cBaseShift === 'MANHÃ' || cBaseShift === 'MANHA';
+      } else if (filter === 'TARDE') {
+        return cBaseShift === 'TARDE';
+      } else if (filter === 'MEIO-TURNO') {
+        return cBaseShift === 'MEIO-TURNO' || cBaseShift === 'MEIO TURNO' || cBaseShift === 'MEIO-TURNO DA NOITE' || cBaseShift === 'MEIO TURNO DA NOITE' || cBaseShift === 'NOITE';
       }
 
       // 'TODOS'
@@ -5039,16 +5036,13 @@ export class App {
       if (this.isWorkDay(c, day)) return false;
 
       const cBaseShift = (c.shift || '').trim().toUpperCase();
-      const loggedBaseShift = (logged.shift || '').trim().toUpperCase();
 
-      if (filter === 'MEU_TURNO') {
-        return cBaseShift === loggedBaseShift || (loggedBaseShift === 'MANHÃ' && cBaseShift === 'MANHA') || (loggedBaseShift === 'MANHA' && cBaseShift === 'MANHÃ');
-      } else if (filter === 'TURNO_ANTERIOR') {
-        const prevShift = this.getPreviousShiftLabel().toUpperCase();
-        return cBaseShift === prevShift || (prevShift === 'MANHÃ' && cBaseShift === 'MANHA') || (prevShift === 'MANHA' && cBaseShift === 'MANHÃ');
-      } else if (filter === 'TURNO_POSTERIOR') {
-        const postShift = this.getPosteriorShiftLabel().toUpperCase();
-        return cBaseShift === postShift || (postShift === 'MANHÃ' && cBaseShift === 'MANHA') || (postShift === 'MANHA' && cBaseShift === 'MANHÃ');
+      if (filter === 'MANHÃ') {
+        return cBaseShift === 'MANHÃ' || cBaseShift === 'MANHA';
+      } else if (filter === 'TARDE') {
+        return cBaseShift === 'TARDE';
+      } else if (filter === 'MEIO-TURNO') {
+        return cBaseShift === 'MEIO-TURNO' || cBaseShift === 'MEIO TURNO' || cBaseShift === 'MEIO-TURNO DA NOITE' || cBaseShift === 'MEIO TURNO DA NOITE' || cBaseShift === 'NOITE';
       }
 
       // 'TODOS'
